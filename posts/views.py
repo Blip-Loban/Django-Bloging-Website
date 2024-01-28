@@ -10,7 +10,7 @@ def add_post(request):
             post = post_form.save(commit=False)
             post.author = request.user
             post.save()
-            return redirect('add_post')
+            return redirect('homepage')
     else:
         post_form = PostForm()
 
