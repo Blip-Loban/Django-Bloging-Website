@@ -2,8 +2,8 @@ from django.shortcuts import render,redirect
 from .forms import *
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
-from django.views.generic import CreateView
-from .models import *
+from django.views.generic import CreateView,UpdateView, DeleteView
+from .models import Post
 # Create your views here.
 @login_required
 def add_post(request):
@@ -21,14 +21,29 @@ def add_post(request):
 
 #Add Post using class based view
 class AddPostCreateView(CreateView):
-    model=models.Post
-    form_class=forms.PostForm
+    model=Post
+    form_class=PostForm
     template_name='add_post.html'
     success_url= reverse_lazy('homepage')
     def form_valid(self, form):
         form.instance.author=self.request.user
         return super().form_valid(form)
     
+#Add Update Post using class based view
+    
+class EditPostView(UpdateView):
+    model = Post 
+    form_class=PostForm
+    template_name='add_post.html'
+    pk_url_kwarg='id'
+    success_url= reverse_lazy('homepage')
+
+class DeletePostView(DeleteView):
+    model = Post 
+    template_name='delete.html'
+    pk_url_kwarg='id'
+    success_url= reverse_lazy('homepage')
+
 
 
 
