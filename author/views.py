@@ -1,10 +1,16 @@
+from typing import Any
+from django.http import HttpResponse
 from django.shortcuts import render,redirect
 from .forms import *
+from django.http import HttpResponseRedirect
+from django.urls import reverse_lazy
 from django.contrib.auth.forms import AuthenticationForm,PasswordChangeForm
 from django.contrib.auth import authenticate,login,update_session_auth_hash,logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from posts.models import *
+from django.contrib.auth.views import auth_logout
+from django.contrib.auth.views import LoginView,LogoutView
 # Create your views here.
 # def add_author(request):
 
@@ -50,6 +56,25 @@ def user_login(request):
     else:
         form =AuthenticationForm()
         return render(request,'register.html',{'form':form,'type':'Login'})
+    
+
+class UserLoginView(LoginView):
+
+    template_name = 'register.html'
+    
+    def form_valid(self, form):
+        messages.success(self.request,'Logged in successfully')
+        return super().form_valid(form)
+    def form_invalid(self, form):
+        messages.success(self.request,'Logged information incorrect')
+        return super().form_invalid(form)
+
+    def get_context_data(self, **kwargs):
+        context=super().get_context_data(**kwargs)
+        context['type']='Login'
+        return context
+    def get_success_url(self):
+        return reverse_lazy('homepage')
 
 @login_required
 def profile(request):
