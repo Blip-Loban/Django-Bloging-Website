@@ -42,7 +42,7 @@
       
       <img src="{{ post.img.url }}" class="card-img-top" alt="Image">
         <div class="card-body">
-          <h5 class="card-title">{{post.title | truncatewords:4}}</h5>
+          <h5 class="card-title "><a href="{% url 'detail_post' post.id %}" class="text-decoration-none text-warning">{{post.title | truncatewords:4}}</a></h5>
           <p class="card-text">{{post.content |truncatewords:10}} </p>
           <p>Author:  {{post.author.first_name}} {{post.author.last_name}}</p>
           <p>Category: <br>

@@ -7,7 +7,7 @@ class Post(models.Model):
     content=models.TextField()
     category= models.ManyToManyField(Category) #One post can have multipple category and vice versa
     author=models.ForeignKey(User,on_delete=models.CASCADE)
-    img=models.ImageField(upload_to='images/')
+    img=models.ImageField(upload_to='images/',blank=True,null=True)
     
     def __str__(self):
         return self.title 
